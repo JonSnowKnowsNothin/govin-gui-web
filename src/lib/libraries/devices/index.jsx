@@ -92,6 +92,45 @@ const deviceData = [
         programLanguage: ['block'],
         tags: ['realtime']
     },
+
+    {//cares
+        name: 'RHK Expansion Board',
+        deviceId: 'microPythonEsp32',
+        manufactor: 'PMU-CARES GOA',
+        learnMore: 'https://cares.goa.gov.in/robotic-kit/',
+        type: DeviceType.microPython,
+        iconURL: esp32microPythonIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage="A Great Expansion Board Developed In House by PMU-CARES GOA"
+                description="Towards being Swayam-purn Goem and driving the Make-in India initiative; PMU has in-house developed and designed Robotics Hardware Kits and got it contract manufactured"
+                id="gui.device.microPythonEsp32.description"
+            />
+        ),
+        featured: true,
+        disabled: false,
+        bluetoothRequired: false,
+        serialportRequired: true,
+        defaultBaudRate: '115200',
+        internetConnectionRequired: false,
+        launchPeripheralConnectionFlow: true,
+        useAutoScan: false,
+        connectionIconURL: esp32microPythonConnectionIconURL,
+        connectionSmallIconURL: esp32microPythonConnectionSmallIconURL,
+        connectingMessage: (
+            <FormattedMessage
+                defaultMessage="Connecting"
+                description="Message to help people connect to their Microcontroller"
+                id="gui.device.microPythonEsp32.connectingMessage"
+            />
+        ),
+        baseToolBoxXml: microPythonBaseToolBox,
+        programMode: ['upload'],
+        programLanguage: ['block','microPython'],
+        tags: ['microPython'],
+        helpLink: 'https://caresgoa.robokitsupport.co.in/'
+    },
+    
     {
         name: 'Arduino Uno',
         deviceId: 'arduinoUno',
@@ -315,267 +354,7 @@ const deviceData = [
         tags: ['arduino'],
         helpLink: 'https://arduino-esp8266.readthedocs.io/en/3.0.0/index.html'
     },
-    // {
-    //     name: 'MaixDock',
-    //     deviceId: 'arduinoK210MaixDock',
-    //     manufactor: 'sipeed',
-    //     learnMore: 'https://wiki.sipeed.com/',
-    //     type: DeviceType.arduino,
-    //     iconURL: k210MaixDockIconURL,
-    //     description: (
-    //         <FormattedMessage
-    //             defaultMessage="A control board based on the K210 RISC-V chip that only has basic functions and leads out all IO pins." // eslint-disable-line max-len
-    //             description="Description for the K210 MaixDock device"
-    //             id="gui.device.k210MaixDock.description"
-    //         />
-    //     ),
-    //     featured: true,
-    //     disabled: false,
-    //     bluetoothRequired: false,
-    //     serialportRequired: true,
-    //     defaultBaudRate: '115200',
-    //     internetConnectionRequired: false,
-    //     launchPeripheralConnectionFlow: true,
-    //     useAutoScan: false,
-    //     connectionIconURL: k210MaixDockConnectionIconURLL,
-    //     connectionSmallIconURL: k210MaixDockConnectionSmallIconURL,
-    //     connectingMessage: (
-    //         <FormattedMessage
-    //             defaultMessage="Connecting"
-    //             description="Message to help people connect to their device."
-    //             id="gui.device.k210MaixDock.connectingMessage"
-    //         />
-    //     ),
-    //     baseToolBoxXml: arduinoBaseToolBox,
-    //     programMode: ['upload'],
-    //     programLanguage: ['block', 'c', 'cpp'],
-    //     tags: ['arduino'],
-    //     helpLink: 'https://wiki.sipeed.com/hardware/zh/maix/maixpy_develop_kit_board/Maix_dock.html'
-    // },
-    // {
-    //     name: 'Maixduno',
-    //     deviceId: 'arduinoK210Maixduino',
-    //     manufactor: 'sipeed',
-    //     learnMore: 'https://maixduino.sipeed.com/',
-    //     type: DeviceType.arduino,
-    //     iconURL: k210MaixduinoIconURL,
-    //     description: (
-    //         <FormattedMessage
-    //             defaultMessage="The K210 RISC-V board with ESP32 inside."
-    //             description="Description for the K210 maixduino device"
-    //             id="gui.device.k210Maixduino.description"
-    //         />
-    //     ),
-    //     featured: true,
-    //     disabled: false,
-    //     bluetoothRequired: false,
-    //     serialportRequired: true,
-    //     defaultBaudRate: '115200',
-    //     internetConnectionRequired: false,
-    //     launchPeripheralConnectionFlow: true,
-    //     useAutoScan: false,
-    //     connectionIconURL: k210MaixduinoConnectionIconURLL,
-    //     connectionSmallIconURL: k210MaixduinoConnectionSmallIconURL,
-    //     connectingMessage: (
-    //         <FormattedMessage
-    //             defaultMessage="Connecting"
-    //             description="Message to help people connect to their device."
-    //             id="gui.device.k210Maixduino.connectingMessage"
-    //         />
-    //     ),
-    //     baseToolBoxXml: arduinoBaseToolBox,
-    //     programMode: ['upload'],
-    //     programLanguage: ['block', 'c', 'cpp'],
-    //     tags: ['arduino'],
-    //     helpLink: 'https://wiki.sipeed.com/soft/maixpy/en/develop_kit_board/maix_duino.html'
-    // },
-    // {
-    //     name: 'Raspberry Pi Pico',
-    //     deviceId: 'arduinoRaspberryPiPico',
-    //     manufactor: 'Raspberry Pi Foundation',
-    //     learnMore: 'https://www.raspberrypi.com/',
-    //     type: DeviceType.arduino,
-    //     iconURL: raspberryPiPicoIconURL,
-    //     description: (
-    //         <FormattedMessage
-    //             defaultMessage="The powerful, flexible microcontroller board."
-    //             description="Description for the Raspberry Pi Pico device"
-    //             id="gui.device.raspberryPiPicoIconURL.description"
-    //         />
-    //     ),
-    //     featured: true,
-    //     disabled: false,
-    //     bluetoothRequired: false,
-    //     serialportRequired: true,
-    //     defaultBaudRate: '9600',
-    //     internetConnectionRequired: false,
-    //     launchPeripheralConnectionFlow: true,
-    //     useAutoScan: false,
-    //     connectionIconURL: raspberryPiPicoConnectionIconURL,
-    //     connectionSmallIconURL: raspberryPiPicoConnectionSmallIconURL,
-    //     connectingMessage: (
-    //         <FormattedMessage
-    //             defaultMessage="Connecting"
-    //             description="Message to help people connect to their device."
-    //             id="gui.device.raspberryPiPicoIconURL.connectingMessage"
-    //         />
-    //     ),
-    //     baseToolBoxXml: arduinoBaseToolBox,
-    //     programMode: ['upload'],
-    //     programLanguage: ['block', 'c', 'cpp'],
-    //     tags: ['arduino'],
    
-    // },
-    // {
-    //     name: 'Micro:bit',
-    //     deviceId: 'microbit',
-    //     manufactor: 'microbit.org',
-    //     learnMore: 'https://microbit.org/',
-    //     type: DeviceType.microbit,
-    //     iconURL: microbitIconURL,
-    //     description: (
-    //         <FormattedMessage
-    //             defaultMessage="The pocket-sized computer transforming digital skills learning."
-    //             description="Description for the micro:bit device"
-    //             id="gui.device.microbit.description"
-    //         />
-    //     ),
-    //     featured: true,
-    //     disabled: false,
-    //     bluetoothRequired: false,
-    //     serialportRequired: true,
-    //     defaultBaudRate: '115200',
-    //     internetConnectionRequired: false,
-    //     launchPeripheralConnectionFlow: true,
-    //     useAutoScan: false,
-    //     connectionIconURL: microbitConnectionIconURLL,
-    //     connectionSmallIconURL: microbitConnectionSmallIconURL,
-    //     connectingMessage: (
-    //         <FormattedMessage
-    //             defaultMessage="Connecting"
-    //             description="Message to help people connect to their device."
-    //             id="gui.device.microbit.connectingMessage"
-    //         />
-    //     ),
-    //     baseToolBoxXml: microbitBaseToolBox,
-    //     programMode: ['upload'],
-    //     programLanguage: ['block', 'microPython'],
-    //     tags: ['microPython'],
-    //     helpLink: 'https://microbit.org/get-started/first-steps/introduction/'
-    // },
-    // {
-    //     name: 'Micro:bit V2',
-    //     deviceId: 'microbitV2',
-    //     manufactor: 'microbit.org',
-    //     learnMore: 'https://microbit.org/',
-    //     type: DeviceType.microbit,
-    //     iconURL: microbitV2IconURL,
-    //     description: (
-    //         <FormattedMessage
-    //             defaultMessage="Upgraded processor, built-In speaker and microphone, touch sensitive logo."
-    //             description="Description for the micro:bit V2 device"
-    //             id="gui.device.microbitV2.description"
-    //         />
-    //     ),
-    //     featured: true,
-    //     disabled: false,
-    //     bluetoothRequired: false,
-    //     serialportRequired: true,
-    //     defaultBaudRate: '115200',
-    //     internetConnectionRequired: false,
-    //     launchPeripheralConnectionFlow: true,
-    //     useAutoScan: false,
-    //     connectionIconURL: microbitV2ConnectionIconURLL,
-    //     connectionSmallIconURL: microbitV2ConnectionSmallIconURL,
-    //     connectingMessage: (
-    //         <FormattedMessage
-    //             defaultMessage="Connecting"
-    //             description="Message to help people connect to their device."
-    //             id="gui.device.microbitV2.connectingMessage"
-    //         />
-    //     ),
-    //     baseToolBoxXml: microbitBaseToolBox,
-    //     programMode: ['upload'],
-    //     programLanguage: ['block', 'microPython'],
-    //     tags: ['microPython'],
-    //     helpLink: 'https://microbit.org/get-started/first-steps/introduction/'
-    // },
-    // {
-    //     name: 'Makey Makey',
-    //     deviceId: 'makeyMakey',
-    //     manufactor: 'makeymakey.com',
-    //     learnMore: 'https://makeymakey.com/',
-    //     type: DeviceType.arduino,
-    //     iconURL: makeymakeyIconURL,
-    //     description: (
-    //         <FormattedMessage
-    //             defaultMessage="Make anything into a key."
-    //             description="Description for the Makey Makey device"
-    //             id="gui.device.makeymakey.description"
-    //         />
-    //     ),
-    //     featured: true,
-    //     disabled: false,
-    //     bluetoothRequired: false,
-    //     serialportRequired: true,
-    //     defaultBaudRate: '115200',
-    //     internetConnectionRequired: false,
-    //     launchPeripheralConnectionFlow: true,
-    //     useAutoScan: false,
-    //     connectionIconURL: makeymakeyConnectionIconURL,
-    //     connectionSmallIconURL: makeymakeyConnectionSmallIconURL,
-    //     connectingMessage: (
-    //         <FormattedMessage
-    //             defaultMessage="Connecting"
-    //             description="Message to help people connect to their device."
-    //             id="gui.device.makeyMakey.connectingMessage"
-    //         />
-    //     ),
-    //     baseToolBoxXml: arduinoBaseToolBox,
-    //     programMode: ['upload'],
-    //     programLanguage: ['block', 'c', 'cpp'],
-    //     tags: ['arduino'],
-    //     helpLink: 'https://makeymakey.com'
-    // },
-
-    {//cares
-        name: 'RHK Expansion Board',
-        deviceId: 'microPythonEsp32',
-        manufactor: 'PMU-CARES GOA',
-        leanMore: 'https://cares.goa.gov.in/robotic-kit/',
-        type: DeviceType.microPython,
-        iconURL: esp32microPythonIconURL,
-        description: (
-            <FormattedMessage
-                defaultMessage="A Great Expansion Board Developed In House by PMU-CARES GOA"
-                description="Towards being Swayam-purn Goem and driving the Make-in India initiative; PMU has in-house developed and designed Robotics Hardware Kits and got it contract manufactured"
-                id="gui.device.microPythonEsp32.description"
-            />
-        ),
-        featured: true,
-        disabled: false,
-        bluetoothRequired: false,
-        serialportRequired: true,
-        defaultBaudRate: '115200',
-        internetConnectionRequired: false,
-        launchPeripheralConnectionFlow: true,
-        useAutoScan: false,
-        connectionIconURL: esp32microPythonConnectionIconURL,
-        connectionSmallIconURL: esp32microPythonConnectionSmallIconURL,
-        connectingMessage: (
-            <FormattedMessage
-                defaultMessage="Connecting"
-                description="Message to help people connect to their Microcontroller"
-                id="gui.device.microPythonEsp32.connectingMessage"
-            />
-        ),
-        baseToolBoxXml: microPythonBaseToolBox,
-        programMode: ['upload'],
-        programLanguage: ['block','microPython'],
-        tags: ['microPython'],
-        helpLink: 'https://cares.goa.gov.in/robotic-kit/'
-    },
-    
 
     /**
      * For those parent devices that exist in VM but are not displayed in GUI

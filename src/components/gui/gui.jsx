@@ -44,6 +44,7 @@ import UploadProgress from '../../containers/upload-progress.jsx';
 // import TelemetryModal from '../telemetry-modal/telemetry-modal.jsx';
 import UpdateModal from '../../containers/update-modal.jsx';
 
+import BroadcastModal from '../../containers/broadcast-modal.jsx'; // Govin 2.3.1: Classroom broadcast modal
 import layout, {STAGE_SIZE_MODES} from '../../lib/layout-constants';
 import {resolveStageSize} from '../../lib/screen-utils';
 
@@ -275,6 +276,8 @@ const GUIComponent = props => {
                         onShowMessageBox={onShowMessageBox}
                     />
                 ) : null}
+                {/* Govin 2.3.1: Classroom broadcast modal for incoming code confirmation */}
+<BroadcastModal vm={vm} />
                 <MenuBar
                     accountNavOpen={accountNavOpen}
                     authorId={authorId}

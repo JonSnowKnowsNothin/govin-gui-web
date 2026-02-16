@@ -34,6 +34,7 @@ import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 import CheckUpdateModal from '../check-update-modal/check-update-modal.jsx';  //added by PMU CARES
 import { isScratchDesktop } from '../../lib/isScratchDesktop';
 import { UPDATE_MODAL_STATE } from '../../lib/update-state.js';
+import BroadcastControls from '../../containers/broadcast-controls.jsx'; // Govin 2.3.1: Classroom broadcast controls
 
 import {
     openTipsLibrary,
@@ -112,6 +113,10 @@ import settingIcon from './icon--setting.svg';
 import uploadFirmwareIcon from './icon--download-firmware.svg';
 import saveSvgAsPng from 'govin-save-svg-as-png';
 import { showAlertWithTimeout } from '../../reducers/alerts';
+// Govin 2.2.3 Screenshot: Added html2canvas for capturing HTML code editor elements
+import html2canvas from 'html2canvas';
+// Govin 2.2.3 Screenshot: Added tab constants to detect active tab for screenshot
+import { BLOCKS_TAB_INDEX, ARDUINO_TAB_INDEX, PYTHON_TAB_INDEX } from '../../reducers/editor-tab';
 
 import UploadFirmwareModal from '../upload-firmware-modal/upload-firmware-modal.jsx'; //CARES 2.1.5 Added to create a modal for Firmware uploading confirmation
 
@@ -418,16 +423,23 @@ class MenuBar extends React.Component {
         this.setState({ showFirmwareModal: true });
     }
     
-    handleScreenshot() {
-        const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
-        if (blocks.getBBox().height === 0) {
-            this.props.onWorkspaceIsEmpty();
-        } else {
+    // Govin 2.2.3 Screenshot: Modified to capture Blockly workspace or code editor based on active tab
+    async handleScreenshot() {
+        const activeTabIndex = this.props.activeTabIndex;
+        const data = new Date();
+        const timestamp = data.getTime();
+
+        // Handle Blocks tab (Code tab)
+        if (activeTabIndex === BLOCKS_TAB_INDEX) {
+            const blocks = document.querySelector('.blocklyWorkspace .blocklyBlockCanvas');
+            if (!blocks || blocks.getBBox().height === 0) {
+                this.props.onWorkspaceIsEmpty();
+                return;
+            }
             const transform = blocks.getAttribute('transform');
             const scale = parseFloat(transform.substring(transform.indexOf('scale') + 6, transform.length - 1));
-            const data = new Date();
 
-            saveSvgAsPng.saveSvgAsPng(blocks, `${this.props.projectTitle}-${data.getTime()}.png`, {
+            saveSvgAsPng.saveSvgAsPng(blocks, `${this.props.projectTitle}-${timestamp}.png`, {
                 left: blocks.getBBox().x * scale,
                 top: blocks.getBBox().y * scale,
                 height: blocks.getBBox().height * scale,
@@ -435,6 +447,51 @@ class MenuBar extends React.Component {
                 scale: 2 / scale,
                 encoderOptions: 1
             });
+        }
+        // Govin 2.2.3 Screenshot: Handle Arduino tab (Text programming) - capture code editor
+        else if (activeTabIndex === ARDUINO_TAB_INDEX || activeTabIndex === PYTHON_TAB_INDEX) {
+            // Find the code editor container - try multiple selectors for reliability
+            let codeEditorContainer = document.querySelector('.hardware-wrapper .code-editor-wrapper');
+            if (!codeEditorContainer) {
+                codeEditorContainer = document.querySelector('.code-editor-wrapper');
+            }
+            if (!codeEditorContainer) {
+                codeEditorContainer = document.querySelector('.codeEditor');
+            }
+            if (!codeEditorContainer) {
+                // Last resort: try to find Monaco editor directly
+                codeEditorContainer = document.querySelector('.monaco-editor');
+            }
+            
+            if (codeEditorContainer) {
+                try {
+                    const canvas = await html2canvas(codeEditorContainer, {
+                        backgroundColor: '#ffffff',
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        windowWidth: codeEditorContainer.scrollWidth,
+                        windowHeight: codeEditorContainer.scrollHeight
+                    });
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = `${this.props.projectTitle}-${timestamp}.png`;
+                        link.click();
+                        URL.revokeObjectURL(url);
+                    });
+                } catch (error) {
+                    console.error('Error capturing code editor:', error);
+                    this.props.onWorkspaceIsEmpty();
+                }
+            } else {
+                this.props.onWorkspaceIsEmpty();
+            }
+        }
+        // For other tabs (Costumes, Sounds), show workspace empty message
+        else {
+            this.props.onWorkspaceIsEmpty();
         }
     }
     // handleCheckUpdate () {
@@ -455,7 +512,7 @@ class MenuBar extends React.Component {
                 return response.json();
             })
             .then(data => { //ADDED BY PMU CARES
-                const appVersion = '2.2.3';
+                const appVersion = '2.3.0';
                 let message = "";
                 const githubVersion = data.version;
                 if (githubVersion > appVersion) {
@@ -799,7 +856,7 @@ class MenuBar extends React.Component {
                         />
                     ) : null)}
                     {/* CARES Added to add save icon in menu bar */}
-                      {(this.props.canManageFiles) && (
+                      {/* {(this.props.canManageFiles) && (
                          <SB3Downloader>{(className, downloadProjectCallback) => (
                             <div
                                 className={classNames(styles.menuBarItem, styles.hoverable)}
@@ -826,8 +883,9 @@ class MenuBar extends React.Component {
                             </div>
 
                         )}</SB3Downloader>
-                        )}
-                   
+                        )} */}
+                       <Divider className={classNames(styles.divider)} />  
+                       {/* CARES 2.3.0 Added to add a divider between file menu and upload firmware menu */}
                     {/* Added to CARES TO HIDE Upload Firmware in Realtime 2.1.5 */}
                     {/* {!this.props.isRealtimeMode && ( */}
                     {/* CARES uncomment to hide upload firmware in realtime mode */}
@@ -1020,6 +1078,14 @@ class MenuBar extends React.Component {
                         </ReactTooltip>
                     </div>
                     <Divider className={classNames(styles.divider)} />
+            
+    
+                    {/* Govin 2.3.1: Classroom broadcast controls - Master/Join Class/Broadcast buttons */}
+                    <div className={classNames(styles.menuBarItem)}>
+                        <BroadcastControls vm={this.props.vm} />
+                    </div>
+                    <Divider className={classNames(styles.divider)} />
+
                     <div className={classNames(styles.menuBarItem, styles.programModeGroup)}>
                         <Switch
                             className={styles.programModeSwitch}
@@ -1239,7 +1305,9 @@ MenuBar.propTypes = {
     onDeviceIsEmpty: PropTypes.func,
     linkStatus: PropTypes.bool,
     onLinkConnected: PropTypes.func.isRequired,
-    onLinkDisconnected: PropTypes.func.isRequired
+    onLinkDisconnected: PropTypes.func.isRequired,
+         // Govin 2.2.3 Screenshot: Added activeTabIndex to detect which tab is currently selected
+         activeTabIndex: PropTypes.number.isRequired
 };
 
 MenuBar.defaultProps = {
@@ -1279,7 +1347,9 @@ const mapStateToProps = (state, ownProps) => {
         deviceId: state.scratchGui.device.deviceId,
         deviceName: state.scratchGui.device.deviceName,
         deviceIcon: state.scratchGui.device.deviceIcon,
-        linkStatus: state.scratchGui.menus.linkStatus
+        linkStatus: state.scratchGui.menus.linkStatus,
+        // Govin 2.2.3 Screenshot: Added activeTabIndex to detect which tab is currently selected
+        activeTabIndex: state.scratchGui.editorTab.activeTabIndex
     };
 };
 

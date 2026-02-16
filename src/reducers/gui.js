@@ -35,6 +35,8 @@ import hardwareConsoleReducer, {hardwareConsoleInitialState} from './hardware-co
 import updateReducer, {updateInitialState} from './update';
 import themeReducer, {themeInitialState} from './theme';
 
+import broadcastReducer, {broadcastInitialState} from './broadcast'; // Govin 2.3.1: Classroom broadcast feature
+
 import decks from '../lib/libraries/decks/index.jsx';
 
 const guiMiddleware = compose(applyMiddleware(throttle(300, {leading: true, trailing: true})));
@@ -73,7 +75,8 @@ const guiInitialState = {
     workspaceMetrics: workspaceMetricsInitialState,
     programMode: programModeInitialState,
     update: updateInitialState,
-    theme: themeInitialState
+    theme: themeInitialState,
+    broadcast: broadcastInitialState // Govin 2.3.1: Classroom broadcast state
 };
 
 const initPlayer = function (currentState) {
@@ -179,7 +182,8 @@ const guiReducer = combineReducers({
     workspaceMetrics: workspaceMetricsReducer,
     programMode: programModeReducer,
     update: updateReducer,
-    theme: themeReducer
+    theme: themeReducer,
+    broadcast: broadcastReducer // Govin 2.3.1: Classroom broadcast reducer
 });
 
 export {
