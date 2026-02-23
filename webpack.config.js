@@ -30,7 +30,12 @@ const base = {
         chunkFilename: 'chunks/[name].js'
     },
     resolve: {
-        symlinks: false
+        symlinks: false,
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'node_modules')
+        ],
+        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
     },
     module: {
         rules: [{
@@ -43,7 +48,8 @@ const base = {
                 path.resolve(__dirname, 'src'),
                 /node_modules[\\/]scratch-[^\\/]+[\\/]src/,
                 /node_modules[\\/]pify/,
-                /node_modules[\\/]@vernier[\\/]godirect/
+                /node_modules[\\/]@vernier[\\/]godirect/,
+                /node_modules[\\/]esptool-js/
             ],
             options: {
                 // Explicitly disable babelrc so we don't catch various config

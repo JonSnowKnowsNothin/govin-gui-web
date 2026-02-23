@@ -1,7 +1,7 @@
 {
-  "name": "govin-gui",
-  "version": "2.3.0",
-  "description": "GraphicaL User Interface for creating and running Govin projects",
+  "name": "govin-gui-web",
+  "version": "2.3.2",
+  "description": "GraphicaL User Interface for creating and running Govin projectson web",
   "main": "./dist/scratch-gui.js",
   "scripts": {
     "build": "npm run clean && webpack --colors --bail",
@@ -42,6 +42,7 @@
     "enzyme": "^3.5.0",
     "enzyme-adapter-react-16": "1.3.0",
     "es6-object-assign": "1.1.0",
+    "esptool-js": "file:../esptool-js",
     "file-loader": "2.0.0",
     "file-saver": "^2.0.5",
     "get-float-time-domain-data": "0.1.0",
@@ -49,7 +50,7 @@
     "govin-blocks": "2.0.2",
     "govin-l10n": "2.1.4",
     "govin-save-svg-as-png": "2.0.0",
-    "govin-vm": "file:/home/kaushik/Desktop/new/govin-vm",
+    "govin-vm": "^2.0.6",
     "html2canvas": "^1.4.1",
     "iconv-lite": "^0.6.2",
     "immutable": "3.8.2",
